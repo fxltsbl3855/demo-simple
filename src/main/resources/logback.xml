@@ -1,0 +1,29 @@
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <property name="APP_NAME" value="demo-simple" />
+	<property name="LOG_ROOT_PATH" value="/mnt/logs" />
+    <!-- 控制台 start-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40}[%method] - %msg%n</pattern>
+        </layout>
+    </appender>
+    <!-- 控制台 end-->
+	 <!-- 业务日志文件 start-->
+    <appender name="busLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ROOT_PATH}/${APP_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>500MB</maxFileSize>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{40}[%method] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 业务日志文件 end-->
+
+    <!-- 默认配置 -->
+    <root level="INFO">
+        <appender-ref ref="stdout" />
+        <appender-ref ref="busLog" />
+    </root>
+</configuration>
